@@ -12,6 +12,7 @@ class UCameraComponent;
 class UInputAction;
 struct FInputActionValue;
 
+
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 /**
@@ -48,6 +49,7 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
+	
 
 public:
 
@@ -58,6 +60,29 @@ protected:
 
 	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void Tick(float DeltaSeconds) override;
+
+private:
+
+	//to check if we are holding the right mouse button for moving right arm
+	bool bIsDragging;
+
+	//gets data from moving mouse
+	FVector2D MouseDelta;
+
+	//sensitivity for moving right arm with mouse
+	UPROPERTY(EditAnywhere, Category = "Arm")
+	float Sensitivity = 1.0f;
+
+	//values for the blendspace of the right arm
+	float AimX;
+	float AimY;
+
+	//input
+	void OnRightMouseButtonPressed();
+	void OnRightMouseButtonReleased();
+	void OnMouseMoveX(float AxisValue);
+	void OnMouseMoveY(float AxisValue);
 
 protected:
 

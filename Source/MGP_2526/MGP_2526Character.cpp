@@ -48,6 +48,12 @@ AMGP_2526Character::AMGP_2526Character()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	PrimaryActorTick.bCanEverTick = true;
+	bIsDragging = false;
+	AimX = 0.f;
+	AimY = 0.f;
+	MouseDelta = FVector2D::ZeroVector;
 }
 
 void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -70,6 +76,15 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	{
 		UE_LOG(LogMGP_2526, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	//bindings for clicking and releasing the right mouse button
+	PlayerInputComponent->BindAction("RightMouseButton", EInputEvent::IE_Pressed, this, &AMGP_2526Character::OnRightMouseButtonPressed); //right button pressed
+	PlayerInputComponent->BindAction("RightMouseButton", EInputEvent::IE_Released, this, &AMGP_2526Character::OnRightMouseButtonReleased); //right button released
+
+	PlayerInputComponent->BindAxis("MouseMoveX", this, &AMGP_2526Character::OnMouseMoveX); //moving mouse on X axis
+	PlayerInputComponent->BindAxis("MouseMoveY", this, &AMGP_2526Character::OnMouseMoveY); //moving mouse on Y axis
 }
 
 void AMGP_2526Character::Move(const FInputActionValue& Value)
