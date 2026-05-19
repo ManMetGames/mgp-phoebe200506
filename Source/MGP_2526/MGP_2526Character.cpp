@@ -87,6 +87,60 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	PlayerInputComponent->BindAxis("MouseMoveY", this, &AMGP_2526Character::OnMouseMoveY); //moving mouse on Y axis
 }
 
+void AMGP_2526Character::OnRightMouseButtonPressed()
+{
+	//sets the boolean to true when holding the right mouse button down
+	bIsDragging = true;
+}
+
+void AMGP_2526Character::OnRightMouseButtonReleased()
+{
+	//sets the boolean to false when not the right mouse button down/ when releasing the right mouse button
+	bIsDragging = false;
+}
+
+void AMGP_2526Character::OnMouseMoveX(float AxisValue)
+{
+	//if we are holding the right mouse button, get the mouse movement on the X axis and add it to MouseDelta.X
+	if (bIsDragging)
+	{
+		MouseDelta.X += AxisValue;
+	}
+}
+void AMGP_2526Character::OnMouseMoveY(float AxisValue)
+{
+	//if we are holding the right mouse button, get the mouse movement on the Y axis and add it to MouseDelta.Y
+	if (bIsDragging)
+	{
+		MouseDelta.Y += AxisValue;
+	}
+}
+
+void AMGP_2526Character::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	//if we are dragging, update the AimX and AimY values based on the MouseDelta and Sensitivity, then reset MouseDelta to zero
+	if (bIsDragging)
+	{
+		//updates aim values based on mouse movement, sensitivity, and delta time, and clamps them between -1 and 1
+		AimX = FMath::Clamp(AimX + MouseDelta.X * Sensitivity * DeltaTime, -1.f, 1.f);
+		AimY = FMath::Clamp(AimY + MouseDelta.Y * Sensitivity * DeltaTime, -1.f, 1.f);
+
+
+		MouseDelta = FVector2D::ZeroVector;
+
+		if (UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance())
+		{
+			//updates the aim values in the animation blueprint
+
+			Cast<UAnimInstance>(AnimInstance)->SetMorphTarget("ArmL/R_R", AimX);
+			Cast<UAnimInstance>(AnimInstance)->SetMorphTarget("ArmU/D_R", AimY);
+		}
+	}
+}
+
+
 void AMGP_2526Character::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
@@ -146,3 +200,5 @@ void AMGP_2526Character::DoJumpEnd()
 	// signal the character to stop jumping
 	StopJumping();
 }
+
+
