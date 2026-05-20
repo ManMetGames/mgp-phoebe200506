@@ -62,7 +62,7 @@ protected:
 
 	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void Tick(float DeltaSeconds) override;
+
 
 private:
 
@@ -74,7 +74,7 @@ private:
 
 	//sensitivity for moving right arm with mouse
 	UPROPERTY(EditAnywhere, Category = "Arm")
-	float Sensitivity = 2.0f;
+	float Sensitivity = 1.0f;
 
 	//values for the blendspace of the right arm
 	float AimX = 0.f;

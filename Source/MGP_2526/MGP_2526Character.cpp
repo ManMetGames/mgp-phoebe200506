@@ -17,7 +17,7 @@
 AMGP_2526Character::AMGP_2526Character()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	bIsDragging = false;
+	bool bIsDragging = false;
 
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -65,6 +65,15 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 {
 
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+
+	//bindings for clicking and releasing the right mouse button
+	PlayerInputComponent->BindAction("RightMouse", EInputEvent::IE_Pressed, this, &AMGP_2526Character::OnRightMouseButtonPressed); //right button pressed
+	PlayerInputComponent->BindAction("RightMouse", EInputEvent::IE_Released, this, &AMGP_2526Character::OnRightMouseButtonReleased); //right button released
+
+	PlayerInputComponent->BindAxis("MouseX", this, &AMGP_2526Character::OnMouseMoveX); //moving mouse on X axis
+	PlayerInputComponent->BindAxis("MouseY", this, &AMGP_2526Character::OnMouseMoveY); //moving mouse on Y axis
+
 	// Set up action bindings
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
@@ -84,20 +93,16 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		UE_LOG(LogMGP_2526, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
 
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	
 
-	//bindings for clicking and releasing the right mouse button
-	PlayerInputComponent->BindAction("RightMouseButton", EInputEvent::IE_Pressed, this, &AMGP_2526Character::OnRightMouseButtonPressed); //right button pressed
-	PlayerInputComponent->BindAction("RightMouseButton", EInputEvent::IE_Released, this, &AMGP_2526Character::OnRightMouseButtonReleased); //right button released
 
-	PlayerInputComponent->BindAxis("Turn", this, &AMGP_2526Character::OnMouseMoveX); //moving mouse on X axis
-	PlayerInputComponent->BindAxis("LookUp", this, &AMGP_2526Character::OnMouseMoveY); //moving mouse on Y axis
 }
 
 void AMGP_2526Character::OnRightMouseButtonPressed()
 {
 	//sets the boolean to true when holding the right mouse button down
 	bIsDragging = true;
+	UE_LOG(LogTemp, Warning, TEXT("right mouse clicked"));
 }
 
 void AMGP_2526Character::OnRightMouseButtonReleased()
@@ -132,16 +137,20 @@ void AMGP_2526Character::Tick(float DeltaTime)
 	if (bIsDragging)
 	{
 		//updates aim values based on mouse movement, sensitivity, and delta time, and clamps them between -1 and 1
-		AimX = FMath::Clamp(AimX + MouseDelta.X * Sensitivity * DeltaTime, -1.f, 1.f);
-		AimY = FMath::Clamp(AimY + MouseDelta.Y * Sensitivity * DeltaTime, -1.f, 1.f);
+				// Add mouse delta to Aim values
+		AimX += MouseDelta.X * Sensitivity;
+		AimY += MouseDelta.Y * Sensitivity;
+
+		// Clamp values to BlendSpace range
+		AimX = FMath::Clamp(AimX, -1.f, 1.f);
+		AimY = FMath::Clamp(AimY, -1.f, 1.f);
 
 
 		MouseDelta = FVector2D::ZeroVector;
 
-		if (UAnimInstance* AnimInstance = Cast<UArmMovementR>(GetMesh()->GetAnimInstance()))
+		UArmMovementR* AnimInstance = Cast<UArmMovementR>(GetMesh()->GetAnimInstance());
+		if (AnimInstance)
 		{
-			//updates the aim values in the animation blueprint
-
 			AnimInstance->AimX = AimX;
 			AnimInstance->AimY = AimY;
 		}
