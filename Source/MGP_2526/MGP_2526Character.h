@@ -56,6 +56,8 @@ public:
 	/** Constructor */
 	AMGP_2526Character();	
 
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 
 	/** Initialize input action bindings */
@@ -72,11 +74,11 @@ private:
 
 	//sensitivity for moving right arm with mouse
 	UPROPERTY(EditAnywhere, Category = "Arm")
-	float Sensitivity = 1.0f;
+	float Sensitivity = 2.0f;
 
 	//values for the blendspace of the right arm
-	float AimX;
-	float AimY;
+	float AimX = 0.f;
+	float AimY = 0.f;
 
 	//input
 	void OnRightMouseButtonPressed();

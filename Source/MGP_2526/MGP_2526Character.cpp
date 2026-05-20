@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "MGP_2526Character.h"
+#include "ArmMovementR.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -11,9 +12,13 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "MGP_2526.h"
+#include "Animation/AnimInstance.h"
 
 AMGP_2526Character::AMGP_2526Character()
 {
+	PrimaryActorTick.bCanEverTick = true;
+	bIsDragging = false;
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 		
@@ -58,6 +63,8 @@ AMGP_2526Character::AMGP_2526Character()
 
 void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
+
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	// Set up action bindings
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
@@ -83,8 +90,8 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	PlayerInputComponent->BindAction("RightMouseButton", EInputEvent::IE_Pressed, this, &AMGP_2526Character::OnRightMouseButtonPressed); //right button pressed
 	PlayerInputComponent->BindAction("RightMouseButton", EInputEvent::IE_Released, this, &AMGP_2526Character::OnRightMouseButtonReleased); //right button released
 
-	PlayerInputComponent->BindAxis("MouseMoveX", this, &AMGP_2526Character::OnMouseMoveX); //moving mouse on X axis
-	PlayerInputComponent->BindAxis("MouseMoveY", this, &AMGP_2526Character::OnMouseMoveY); //moving mouse on Y axis
+	PlayerInputComponent->BindAxis("Turn", this, &AMGP_2526Character::OnMouseMoveX); //moving mouse on X axis
+	PlayerInputComponent->BindAxis("LookUp", this, &AMGP_2526Character::OnMouseMoveY); //moving mouse on Y axis
 }
 
 void AMGP_2526Character::OnRightMouseButtonPressed()
@@ -97,6 +104,7 @@ void AMGP_2526Character::OnRightMouseButtonReleased()
 {
 	//sets the boolean to false when not the right mouse button down/ when releasing the right mouse button
 	bIsDragging = false;
+	MouseDelta = FVector2D::ZeroVector; //resets the mouse delta to zero when we stop dragging
 }
 
 void AMGP_2526Character::OnMouseMoveX(float AxisValue)
@@ -130,12 +138,12 @@ void AMGP_2526Character::Tick(float DeltaTime)
 
 		MouseDelta = FVector2D::ZeroVector;
 
-		if (UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance())
+		if (UAnimInstance* AnimInstance = Cast<UArmMovementR>(GetMesh()->GetAnimInstance()))
 		{
 			//updates the aim values in the animation blueprint
 
-			Cast<UAnimInstance>(AnimInstance)->SetMorphTarget("ArmL/R_R", AimX);
-			Cast<UAnimInstance>(AnimInstance)->SetMorphTarget("ArmU/D_R", AimY);
+			AnimInstance->AimX = AimX;
+			AnimInstance->AimY = AimY;
 		}
 	}
 }
