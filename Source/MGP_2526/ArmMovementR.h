@@ -4,7 +4,7 @@
 #include "Animation/AnimInstance.h"
 #include "ArmMovementR.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class MGP_2526_API UArmMovementR : public UAnimInstance
 {
     GENERATED_BODY()
@@ -12,12 +12,12 @@ class MGP_2526_API UArmMovementR : public UAnimInstance
 public:
     // Horizontal arm aim
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Arm")
-    float AimX;
+    float AimX = 0.f;
 
     // Vertical arm aim
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Arm")
-    float AimY;
+    float AimY = 0.f;
 
-    // Optional: constructor to set defaults
+    // Constructor
     UArmMovementR();
 };
