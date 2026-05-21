@@ -4,7 +4,7 @@
 #include "Animation/AnimInstance.h"
 #include "ArmMovementR.generated.h"
 
-UCLASS(Blueprintable)
+UCLASS()
 class MGP_2526_API UArmMovementR : public UAnimInstance
 {
     GENERATED_BODY()
