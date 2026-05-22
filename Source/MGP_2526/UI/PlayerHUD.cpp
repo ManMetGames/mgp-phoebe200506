@@ -37,3 +37,10 @@ void UPlayerHUD::SetHungerBar(float CurrentHunger, float MaxHunger)
 
 	HungerText->SetText(FText::FromString(currentHungerString + "/" + maxHungerString));
 }
+
+void UPlayerHUD::NativeTick(const FGeometry& MyGeometry, float DeltaTime)
+{
+	Super::NativeTick(MyGeometry, DeltaTime);
+
+	//CurrentHunger -= HungerDepletionRate * DeltaTime;
+}

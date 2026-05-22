@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "UI/PlayerHUD.h"
 #include "MGP_2526Character.generated.h"
 
 class USpringArmComponent;

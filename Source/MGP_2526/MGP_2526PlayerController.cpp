@@ -7,7 +7,9 @@
 #include "InputMappingContext.h"
 #include "Blueprint/UserWidget.h"
 #include "MGP_2526.h"
+#include "MGP_2526Character.h"	
 #include "Widgets/Input/SVirtualJoystick.h"
+#include "UI/PlayerHUD.h"
 
 void AMGP_2526PlayerController::BeginPlay()
 {
@@ -32,15 +34,23 @@ void AMGP_2526PlayerController::BeginPlay()
 
 	}
 
-	PlayerHUD = CreateWidget<UPlayerHUD>(this, PlayerHUDClass);
+	PlayerHUD = CreateWidget<UPlayerHUD>(this, PlayerHUDClass); //creates the player hud and assigns it to the PlayerHUD variable
 	if (PlayerHUDClass)
 	{
 
-		PlayerHUD->AddToViewport();
-	}
+		PlayerHUD->AddToViewport(); //put the hunger bar onto the screen
 
-	PlayerHUD->SetHungerBar(90.f, 100.f);
+	}
+	//########################################################################possibnly call here? to make it change but use variable. to make it add every second, ctreate the function in the tivk)#############################################################
+
+	//PlayerHUD->SetHungerBar(50.f, 100.f); //test to see if bar successfully depletes and changes colour
 }
+
+void AMGP_2526PlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
 
 void AMGP_2526PlayerController::SetupInputComponent()
 {
@@ -57,7 +67,7 @@ void AMGP_2526PlayerController::SetupInputComponent()
 				Subsystem->AddMappingContext(CurrentContext, 0);
 			}
 
-			// only add these IMCs if we're not using mobile touch input
+			// only add these IMC's if we're not using mobile touch input
 			if (!SVirtualJoystick::ShouldDisplayTouchInterface())
 			{
 				for (UInputMappingContext* CurrentContext : MobileExcludedMappingContexts)

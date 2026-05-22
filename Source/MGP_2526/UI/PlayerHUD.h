@@ -22,6 +22,9 @@ class MGP_2526_API UPlayerHUD : public UUserWidget
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	TObjectPtr<UProgressBar> HungerBar;
 
+protected:
+	virtual void NativeTick(const FGeometry& MyGeometry, float DeltaTime) override;
+
 public:
 
 	UFUNCTION()
