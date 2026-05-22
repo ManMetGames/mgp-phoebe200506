@@ -31,6 +31,15 @@ void AMGP_2526PlayerController::BeginPlay()
 		}
 
 	}
+
+	PlayerHUD = CreateWidget<UPlayerHUD>(this, PlayerHUDClass);
+	if (PlayerHUDClass)
+	{
+
+		PlayerHUD->AddToViewport();
+	}
+
+	PlayerHUD->SetHungerBar(90.f, 100.f);
 }
 
 void AMGP_2526PlayerController::SetupInputComponent()

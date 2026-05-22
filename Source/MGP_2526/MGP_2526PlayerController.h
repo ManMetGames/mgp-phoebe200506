@@ -4,7 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+
+#include "UI/PlayerHUD.h"
+
 #include "MGP_2526PlayerController.generated.h"
+
 
 class UInputMappingContext;
 class UUserWidget;
@@ -40,5 +44,11 @@ protected:
 
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
+
+	UPROPERTY()
+	TObjectPtr<UPlayerHUD> PlayerHUD;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UPlayerHUD> PlayerHUDClass;
 
 };
