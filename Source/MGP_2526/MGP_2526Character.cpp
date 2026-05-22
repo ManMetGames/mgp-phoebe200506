@@ -12,7 +12,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "MGP_2526.h"
-#include "Animation/AnimInstance.h"
+//#include "Animation/AnimInstance.h"
 
 AMGP_2526Character::AMGP_2526Character()
 {
@@ -72,9 +72,9 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	//bindings for clicking and releasing the right mouse button
-	PlayerInputComponent->BindAction("RightMouseClickAction", IE_Pressed, this, &AMGP_2526Character::OnRightMouseButtonPressed);//right button pressed
-	PlayerInputComponent->BindAction("RightMouseClickAction", IE_Released, this, &AMGP_2526Character::OnRightMouseButtonReleased);//right button released
+	////bindings for clicking and releasing the right mouse button
+	//PlayerInputComponent->BindAction("RightMouseClickAction", IE_Pressed, this, &AMGP_2526Character::OnRightMouseButtonPressed);//right button pressed
+	//PlayerInputComponent->BindAction("RightMouseClickAction", IE_Released, this, &AMGP_2526Character::OnRightMouseButtonReleased);//right button released
 
 
 	
@@ -108,68 +108,68 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 }
 
-void AMGP_2526Character::OnRightMouseButtonPressed()
-{
-	//sets the boolean to true when holding the right mouse button down
-	bIsDragging = true;
-	UE_LOG(LogTemp, Warning, TEXT("right mouse clicked"));
-}
-
-void AMGP_2526Character::OnRightMouseButtonReleased()
-{
-	//sets the boolean to false when not the right mouse button down/ when releasing the right mouse button
-	bIsDragging = false;
-	//MouseDelta = FVector2D::ZeroVector; //resets the mouse delta to zero when we stop dragging
-
-}
+//void AMGP_2526Character::OnRightMouseButtonPressed()
+//{
+//	//sets the boolean to true when holding the right mouse button down
+//	bIsDragging = true;
+//	UE_LOG(LogTemp, Warning, TEXT("right mouse clicked"));
+//}
+//
+//void AMGP_2526Character::OnRightMouseButtonReleased()
+//{
+//	//sets the boolean to false when not the right mouse button down/ when releasing the right mouse button
+//	bIsDragging = false;
+//	//MouseDelta = FVector2D::ZeroVector; //resets the mouse delta to zero when we stop dragging
+//
+//}
 
 void AMGP_2526Character::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//if we are dragging, update the AimX and AimY values based on the MouseDelta and Sensitivity, then reset MouseDelta to zero
-	if (bIsDragging)
-	{
+	////if we are dragging, update the AimX and AimY values based on the MouseDelta and Sensitivity, then reset MouseDelta to zero
+	//if (bIsDragging)
+	//{
 
-		
-		GetWorld()->GetFirstPlayerController()->GetInputMouseDelta(MouseDelta.X, MouseDelta.Y);
+	//	
+	//	GetWorld()->GetFirstPlayerController()->GetInputMouseDelta(MouseDelta.X, MouseDelta.Y);
 
-		AimX += MouseDelta.X * 0.01f;
-		AimY += MouseDelta.Y * 0.01f;
+	//	AimX += MouseDelta.X * 0.01f;
+	//	AimY += MouseDelta.Y * 0.01f;
 
-		// Clamp values to BlendSpace range
-		AimX = FMath::Clamp(AimX, -50.f, 50.f);
-		AimY = FMath::Clamp(AimY, -30.f, 20.f);
+	//	// Clamp values to BlendSpace range
+	//	AimX = FMath::Clamp(AimX, -50.f, 50.f);
+	//	AimY = FMath::Clamp(AimY, -30.f, 20.f);
 
-		
-		if (USkeletalMeshComponent* MeshComp = GetMesh())
-		{
-			if (UArmMovementR* AnimInstance = Cast<UArmMovementR>(MeshComp->GetAnimInstance()))
-			{
-				AnimInstance->AimX = AimX;
-				AnimInstance->AimY = AimY;
-			}
-		}
-	}
+	//	
+	//	if (USkeletalMeshComponent* MeshComp = GetMesh())
+	//	{
+	//		if (UArmMovementR* AnimInstance = Cast<UArmMovementR>(MeshComp->GetAnimInstance()))
+	//		{
+	//			AnimInstance->AimX = AimX;
+	//			AnimInstance->AimY = AimY;
+	//		}
+	//	}
+	//}
 }
 
 
-void AMGP_2526Character::OnMouseMoveX(float AxisValue)
-{
-	//if we are holding the right mouse button, get the mouse movement on the X axis and add it to MouseDelta.X
-	if (bIsDragging)
-	{
-		MouseDelta.X += AxisValue;
-	}
-}
-void AMGP_2526Character::OnMouseMoveY(float AxisValue)
-{
-	//if we are holding the right mouse button, get the mouse movement on the Y axis and add it to MouseDelta.Y
-	if (bIsDragging)
-	{
-		MouseDelta.Y += AxisValue;
-	}
-}
+//void AMGP_2526Character::OnMouseMoveX(float AxisValue)
+//{
+//	//if we are holding the right mouse button, get the mouse movement on the X axis and add it to MouseDelta.X
+//	if (bIsDragging)
+//	{
+//		MouseDelta.X += AxisValue;
+//	}
+//}
+//void AMGP_2526Character::OnMouseMoveY(float AxisValue)
+//{
+//	//if we are holding the right mouse button, get the mouse movement on the Y axis and add it to MouseDelta.Y
+//	if (bIsDragging)
+//	{
+//		MouseDelta.Y += AxisValue;
+//	}
+//}
 
 
 
