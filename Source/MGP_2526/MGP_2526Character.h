@@ -19,7 +19,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
  *  A simple player-controllable third person character
  *  Implements a controllable orbiting camera
  */
-UCLASS()
+UCLASS(abstract)
 class AMGP_2526Character : public ACharacter
 {
 	GENERATED_BODY()
@@ -31,32 +31,7 @@ class AMGP_2526Character : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
-
-public:
-
-	/** Constructor */
-	AMGP_2526Character();
-
-
-protected:
-
-	virtual void BeginPlay() override;
-
 	
-public:
-
-	virtual void Tick(float DeltaTime) override;
-
-	//boolean to check if right mouse button is being held down for moving the right arm with the mouse
-	bool bIsDragging;     
-
-	FVector2D MouseDelta;     //gets data from moving mouse     
-
-	//values for the blendspace of the right arm
-	float AimX;
-	float AimY;
-
-
 protected:
 
 	/** Jump Input Action */
@@ -74,14 +49,14 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
-
-	/** Mouse click input action*/
-	UPROPERTY(EditAnywhere, Category = "Input")
-	UInputAction* RightMouseClickAction;
 	
 
-	 
+public:
 
+	/** Constructor */
+	AMGP_2526Character();	
+
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 
@@ -89,9 +64,27 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
+private:
 
+	//to check if we are holding the right mouse button for moving right arm
+	bool bIsDragging;
 
+	//gets data from moving mouse
+	FVector2D MouseDelta;
 
+	//sensitivity for moving right arm with mouse
+	UPROPERTY(EditAnywhere, Category = "Arm")
+	float Sensitivity = 1.0f;
+
+	//values for the blendspace of the right arm
+	float AimX = 0.f;
+	float AimY = 0.f;
+
+	//input
+	void OnRightMouseButtonPressed();
+	void OnRightMouseButtonReleased();
+	void OnMouseMoveX(float AxisValue);
+	void OnMouseMoveY(float AxisValue);
 
 protected:
 
@@ -118,23 +111,6 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
-
-	/**Mouse getting X axis*/
-	UFUNCTION(BlueprintCallable, Category = "Input")
-	virtual void OnMouseMoveX(float AxisValue);
-
-	/**Mouse getting Y axis*/ 
-	UFUNCTION(BlueprintCallable, Category = "Input")
-	virtual void OnMouseMoveY(float AxisValue);
-
-	/**right mouse button getting pressed*/
-	UFUNCTION(BlueprintCallable, Category = "Input")
-	virtual void OnRightMouseButtonPressed();
-
-	//right mouse button getting released
-	UFUNCTION(BlueprintCallable, Category = "Input")
-	virtual void OnRightMouseButtonReleased();
-
 
 public:
 
