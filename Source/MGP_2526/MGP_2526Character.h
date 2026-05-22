@@ -11,7 +11,6 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
-class UInputMappingContext;
 struct FInputActionValue;
 
 
@@ -45,18 +44,18 @@ protected:
 	virtual void BeginPlay() override;
 
 	
-//public:
-//
-//	virtual void Tick(float DeltaTime) override;
-//
-//	//boolean to check if right mouse button is being held down for moving the right arm with the mouse
-//	bool bIsDragging;     
-//
-//	FVector2D MouseDelta;     //gets data from moving mouse     
-//
-//	//values for the blendspace of the right arm
-//	float AimX;
-//	float AimY;
+public:
+
+	virtual void Tick(float DeltaTime) override;
+
+	//boolean to check if right mouse button is being held down for moving the right arm with the mouse
+	bool bIsDragging;     
+
+	FVector2D MouseDelta;     //gets data from moving mouse     
+
+	//values for the blendspace of the right arm
+	float AimX;
+	float AimY;
 
 
 protected:

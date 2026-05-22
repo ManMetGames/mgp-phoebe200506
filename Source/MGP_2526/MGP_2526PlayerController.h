@@ -23,7 +23,7 @@ class AMGP_2526PlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	virtual void Tick(float DeltaTime,) override;
+	virtual void Tick(float DeltaTime) override;
 	
 protected:
 

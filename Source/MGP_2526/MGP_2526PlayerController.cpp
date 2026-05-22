@@ -43,31 +43,12 @@ void AMGP_2526PlayerController::BeginPlay()
 	}
 	//########################################################################possibnly call here? to make it change but use variable. to make it add every second, ctreate the function in the tivk)#############################################################
 
-	//PlayerHUD->SetHungerBar(CurrentHunger, 100.f); //test to see if bar successfully depletes and changes colour
+	//PlayerHUD->SetHungerBar(50.f, 100.f); //test to see if bar successfully depletes and changes colour
 }
-
-//void AMGP_2526PlayerController::Tick(float DeltaTime, float CurrentHunger)
-//{
-//	Super::Tick(DeltaTime);
-//
-//	
-//
-//
-//	PlayerHUD->SetHungerBar(CurrentHunger, 100.f);
-//}
-
-//void AMGP_2526PlayerController::Tick(float DeltaTime, float CurrentHunger)
-//{
-//	Super::Tick(DeltaTime);
-//	PlayerHUD->SetHungerBar(CurrentHunger, 100.f);
-//}
 
 void AMGP_2526PlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	// Example: use a member variable for hunger instead of passing it as a parameter
-	UpdateHunger(Hunger);  // You calculate/update Hunger elsewhere
 }
 
 

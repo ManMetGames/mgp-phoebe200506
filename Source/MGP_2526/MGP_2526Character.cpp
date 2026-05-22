@@ -20,12 +20,10 @@
 AMGP_2526Character::AMGP_2526Character()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-
-	//bIsDragging = false;
-	//MouseDelta = FVector2D::ZeroVector;
-	//AimX = 0.f;
-	//AimY = 0.f;
+	bIsDragging = false;
+	MouseDelta = FVector2D::ZeroVector;
+	AimX = 0.f;
+	AimY = 0.f;
 
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -70,17 +68,6 @@ void AMGP_2526Character::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
-	if (PlayerHUDClass)
-	{
-		PlayerHUD = CreateWidget<UPlayerHUD>(this, PlayerHUDClass); //creates the player hud and assigns it to the PlayerHUD variable
-
-		if (PlayerHUD)
-		{
-			PlayerHUD->AddToViewport(); //put the hunger bar onto the screen
-		}
-
-	}
 }
 
 void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -138,6 +125,50 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 //	//MouseDelta = FVector2D::ZeroVector; //resets the mouse delta to zero when we stop dragging
 //
 //}
+
+void AMGP_2526Character::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+
+
+
+
+
+	
+
+
+	//CurrentHunger -= HungerDepletionRate * DeltaTime; // Decrease hunger based on the depletion rate and delta time
+
+
+
+
+
+	////if we are dragging, update the AimX and AimY values based on the MouseDelta and Sensitivity, then reset MouseDelta to zero
+	//if (bIsDragging)
+	//{
+
+	//	
+	//	GetWorld()->GetFirstPlayerController()->GetInputMouseDelta(MouseDelta.X, MouseDelta.Y);
+
+	//	AimX += MouseDelta.X * 0.01f;
+	//	AimY += MouseDelta.Y * 0.01f;
+
+	//	// Clamp values to BlendSpace range
+	//	AimX = FMath::Clamp(AimX, -50.f, 50.f);
+	//	AimY = FMath::Clamp(AimY, -30.f, 20.f);
+
+	//	
+	//	if (USkeletalMeshComponent* MeshComp = GetMesh())
+	//	{
+	//		if (UArmMovementR* AnimInstance = Cast<UArmMovementR>(MeshComp->GetAnimInstance()))
+	//		{
+	//			AnimInstance->AimX = AimX;
+	//			AnimInstance->AimY = AimY;
+	//		}
+	//	}
+	//}
+}
 
 
 //void AMGP_2526Character::OnMouseMoveX(float AxisValue)
