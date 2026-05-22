@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "MGP_2526Character.h"
-//#include "ArmMovementR.h"
+#include "ArmMovementR.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -12,9 +12,6 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "MGP_2526.h"
-#include "MGP_2526PlayerController.h"
-#include "UI/PlayerHUD.h"
-
 //#include "Animation/AnimInstance.h"
 
 AMGP_2526Character::AMGP_2526Character()
@@ -129,20 +126,6 @@ void AMGP_2526Character::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 void AMGP_2526Character::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-
-
-
-
-
-	
-
-
-	//CurrentHunger -= HungerDepletionRate * DeltaTime; // Decrease hunger based on the depletion rate and delta time
-
-
-
-
 
 	////if we are dragging, update the AimX and AimY values based on the MouseDelta and Sensitivity, then reset MouseDelta to zero
 	//if (bIsDragging)

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "Blueprint/UserWidget.h"
+
 #include "UI/PlayerHUD.h"
 
 #include "MGP_2526PlayerController.generated.h"
@@ -21,9 +21,6 @@ UCLASS(abstract)
 class AMGP_2526PlayerController : public APlayerController
 {
 	GENERATED_BODY()
-
-public:
-	virtual void Tick(float DeltaTime) override;
 	
 protected:
 
@@ -53,8 +50,5 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UPlayerHUD> PlayerHUDClass;
-
-	UPROPERTY()
-	UPlayerHUD* PlayerHUDWidget; // store reference to widget
 
 };
